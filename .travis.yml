@@ -26,5 +26,5 @@ before_install:
   - sleep 10
   
 script:
-  - docker exec taurus-test /bin/bash -c "cd taurus ; python setup.py install"
+  - docker exec taurus-test /bin/bash -c "cd taurus ; pip install ./taurus"
   - docker exec taurus-test /bin/bash -c "TAURUS_STARTER_WAIT=5 taurustestsuite -e 'taurus\.core\.util\.test\.test_timer'"
