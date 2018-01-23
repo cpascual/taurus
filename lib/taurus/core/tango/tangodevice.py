@@ -405,3 +405,8 @@ class TangoDevice(TaurusDevice):
         if self._deviceStateObj is None:
             self._deviceStateObj = self.getAttribute("state")
         return self._deviceStateObj
+
+    @property
+    def tangoState(self):
+        """The value of the Tango state attribute"""
+        return self.stateObj.read().rvalue
