@@ -444,11 +444,13 @@ class BaseConfigurableClass(object):
             )
             if not ofile:
                 return
-        if isinstance(ofile, string_types):
-            ofile = open(ofile, 'wb')
-        configdict = self.createConfig(allowUnpickable=False)
         self.info("Saving current settings in '%s'" % ofile.name)
-        pickle.dump(configdict, ofile)
+        configdict = self.createConfig(allowUnpickable=False)
+        if isinstance(ofile, string_types):
+            with open(ofile, 'wb') as ofile:
+                pickle.dump(configdict, ofile)
+        else:
+            pickle.dump(configdict, ofile)
         return ofile.name
 
     def loadConfigFile(self, ifile=None):
@@ -466,8 +468,9 @@ class BaseConfigurableClass(object):
             if not ifile:
                 return
         if isinstance(ifile, string_types):
-            ifile = open(ifile, 'rb')
-
-        configdict = pickle.load(ifile)
+            with open(ifile, 'rb') as ifile:
+                configdict = pickle.load(ifile)
+        else:
+            configdict = pickle.load(ifile)
         self.applyConfig(configdict)
         return ifile.name
